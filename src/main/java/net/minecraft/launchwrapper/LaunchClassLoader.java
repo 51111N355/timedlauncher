@@ -15,6 +15,7 @@ import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 import java.util.jar.Manifest;
 
+import net.im51111n355.timedlauncher.TimedLauncher;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 
@@ -259,6 +260,8 @@ public class LaunchClassLoader extends URLClassLoader {
     }
 
     private byte[] runTransformers(final String name, final String transformedName, byte[] basicClass) {
+        long before = System.nanoTime();
+
         if (DEBUG_FINER) {
             LogWrapper.finest("Beginning transform of {%s (%s)} Start Length: %d", name, transformedName, (basicClass == null ? 0 : basicClass.length));
             for (final IClassTransformer transformer : transformers) {
@@ -273,6 +276,10 @@ public class LaunchClassLoader extends URLClassLoader {
                 basicClass = transformer.transform(name, transformedName, basicClass);
             }
         }
+
+        long after = System.nanoTime();
+        TimedLauncher.measure(after - before);
+
         return basicClass;
     }
 

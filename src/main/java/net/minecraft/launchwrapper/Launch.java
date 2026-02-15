@@ -16,6 +16,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import net.im51111n355.timedlauncher.TimedLauncher;
 import org.apache.logging.log4j.Level;
 
 public class Launch {
@@ -31,6 +32,8 @@ public class Launch {
     public static LaunchClassLoader classLoader;
 
     private Launch() {
+        TimedLauncher.init();
+
         final URLClassLoader ucl = (URLClassLoader) getClass().getClassLoader();
         classLoader = new LaunchClassLoader(ucl.getURLs());
         blackboard = new HashMap<String,Object>();
